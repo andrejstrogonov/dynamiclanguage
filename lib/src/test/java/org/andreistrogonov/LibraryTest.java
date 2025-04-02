@@ -3,20 +3,39 @@
  */
 package org.andreistrogonov;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class LibraryTest {
-    @Test void someLibraryMethodReturnsTrue() {
-        Library classUnderTest = new Library();
-        assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
+
+    @Mock
+    private Dependency dependency;
+
+    @InjectMocks
+    private Library classUnderTest;
+
+    @BeforeEach
+    void setUp() {
+        classUnderTest = new Library(dependency);
     }
+
+    @Test
+    void someLibraryMethodReturnsTrue() {
+        when(dependency.getResult()).thenReturn(true);
+        assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true' when dependency result is true");
+    }
+
     @Test
     void testStringManipulation() {
         String original = "Hello, World!";
@@ -53,5 +72,4 @@ class LibraryTest {
         map.remove("one");
         assertNull(map.get("one"), "Map should return null for removed key 'one'");
     }
-
 }
