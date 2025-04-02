@@ -4,6 +4,12 @@
 package org.andreistrogonov;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
@@ -11,4 +17,41 @@ class LibraryTest {
         Library classUnderTest = new Library();
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
     }
+    @Test
+    void testStringManipulation() {
+        String original = "Hello, World!";
+        String upper = original.toUpperCase();
+        assertEquals("HELLO, WORLD!", upper, "String should be converted to uppercase");
+
+        String replaced = original.replace("World", "Java");
+        assertEquals("Hello, Java!", replaced, "String should replace 'World' with 'Java'");
+    }
+
+    @Test
+    void testListOperations() {
+        List<Integer> numbers = new ArrayList<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+
+        assertEquals(3, numbers.size(), "List should contain 3 elements");
+        assertTrue(numbers.contains(2), "List should contain the number 2");
+
+        numbers.remove(Integer.valueOf(2));
+        assertFalse(numbers.contains(2), "List should not contain the number 2 after removal");
+    }
+
+    @Test
+    void testDictionaryLikeBehavior() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("one", 1);
+        map.put("two", 2);
+
+        assertEquals(2, map.size(), "Map should contain 2 key-value pairs");
+        assertEquals(1, map.get("one"), "Map should return 1 for key 'one'");
+
+        map.remove("one");
+        assertNull(map.get("one"), "Map should return null for removed key 'one'");
+    }
+
 }
