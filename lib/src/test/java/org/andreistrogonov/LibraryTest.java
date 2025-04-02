@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,20 +22,20 @@ import static org.mockito.Mockito.when;
 class LibraryTest {
 
     @Mock
-    private Dependency dependency;
+    private PythonAnnotations annotations;
 
     @InjectMocks
     private Library classUnderTest;
 
     @BeforeEach
     void setUp() {
-        classUnderTest = new Library(dependency);
+        classUnderTest = new Library(annotations);
     }
 
     @Test
     void someLibraryMethodReturnsTrue() {
-        when(dependency.getResult()).thenReturn(true);
-        assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true' when dependency result is true");
+        when(annotations.getResult()).thenReturn(true);
+        assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true' when annotations result is true");
     }
 
     @Test
