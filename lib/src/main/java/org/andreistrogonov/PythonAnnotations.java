@@ -9,7 +9,7 @@ public class PythonAnnotations implements ToInteger, ToDouble {
      */
     @Override
     public String toDouble() {
-        return "";
+        return Double.toString(0.0);
     }
 
     /**
@@ -17,7 +17,7 @@ public class PythonAnnotations implements ToInteger, ToDouble {
      */
     @Override
     public String toInteger() {
-        return "";
+        return Integer.toString((int) 0.0);
     }
 
     /**
