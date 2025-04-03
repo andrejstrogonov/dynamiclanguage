@@ -1,6 +1,9 @@
 package org.andreistrogonov;
 
 public class PythonAnnotations {
+    public PythonAnnotations() {
+    }
+
     /**
      * Converts an object to an Integer if possible.
      *
