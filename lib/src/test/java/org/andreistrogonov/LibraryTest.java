@@ -3,75 +3,57 @@
  */
 package org.andreistrogonov;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-class LibraryTest {
+class PythonAnnotationsTest {
 
-    @Mock
-    private PythonAnnotations annotations;
-
-    @InjectMocks
-    private Library classUnderTest;
+    private PythonAnnotations classUnderTest;
 
     @BeforeEach
     void setUp() {
-        classUnderTest = new Library(annotations);
+        classUnderTest = new PythonAnnotations();
     }
 
     @Test
-    void someLibraryMethodReturnsTrue() {
-        when(annotations.getResult()).thenReturn(true);
-        assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true' when annotations result is true");
+    void testStringToInteger() {
+        Integer result = classUnderTest.toInteger("123");
+        assertEquals(123, result, "String '123' should convert to integer 123");
+
+        result = classUnderTest.toInteger("abc");
+        assertNull(result, "Invalid string 'abc' should result in null");
     }
 
     @Test
-    void testStringManipulation() {
-        String original = "Hello, World!";
-        String upper = original.toUpperCase();
-        assertEquals("HELLO, WORLD!", upper, "String should be converted to uppercase");
-
-        String replaced = original.replace("World", "Java");
-        assertEquals("Hello, Java!", replaced, "String should replace 'World' with 'Java'");
+    void testIntegerToInteger() {
+        Integer result = classUnderTest.toInteger(456);
+        assertEquals(456, result, "Integer 456 should remain 456");
     }
 
     @Test
-    void testListOperations() {
-        List<Integer> numbers = new ArrayList<>();
-        numbers.add(1);
-        numbers.add(2);
-        numbers.add(3);
+    void testStringToDouble() {
+        Double result = classUnderTest.toDouble("123.45");
+        assertEquals(123.45, result, "String '123.45' should convert to double 123.45");
 
-        assertEquals(3, numbers.size(), "List should contain 3 elements");
-        assertTrue(numbers.contains(2), "List should contain the number 2");
-
-        numbers.remove(Integer.valueOf(2));
-        assertFalse(numbers.contains(2), "List should not contain the number 2 after removal");
+        result = classUnderTest.toDouble("abc");
+        assertNull(result, "Invalid string 'abc' should result in null");
     }
 
     @Test
-    void testDictionaryLikeBehavior() {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("one", 1);
-        map.put("two", 2);
+    void testDoubleToDouble() {
+        Double result = classUnderTest.toDouble(456.78);
+        assertEquals(456.78, result, "Double 456.78 should remain 456.78");
+    }
 
-        assertEquals(2, map.size(), "Map should contain 2 key-value pairs");
-        assertEquals(1, map.get("one"), "Map should return 1 for key 'one'");
+    @Test
+    void testObjectToString() {
+        String result = classUnderTest.toString(789);
+        assertEquals("789", result, "Integer 789 should convert to string '789'");
 
-        map.remove("one");
-        assertNull(map.get("one"), "Map should return null for removed key 'one'");
+        result = classUnderTest.toString(101.11);
+        assertEquals("101.11", result, "Double 101.11 should convert to string '101.11'");
     }
 }
