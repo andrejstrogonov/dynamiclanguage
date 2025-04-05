@@ -20,40 +20,40 @@ class PythonAnnotationsTest {
 
     @Test
     void testStringToInteger() {
-        Integer result = classUnderTest.toInteger("123");
+        String result = classUnderTest .toInteger();
         assertEquals(123, result, "String '123' should convert to integer 123");
 
-        result = classUnderTest.toInteger("abc");
+        result = classUnderTest.toInteger();
         assertNull(result, "Invalid string 'abc' should result in null");
     }
 
     @Test
     void testIntegerToInteger() {
-        Integer result = classUnderTest.toInteger(456);
+        String result = classUnderTest.toInteger();
         assertEquals(456, result, "Integer 456 should remain 456");
     }
 
     @Test
     void testStringToDouble() {
-        Double result = classUnderTest.toDouble("123.45");
+        String result = String.valueOf(classUnderTest.toDouble());
         assertEquals(123.45, result, "String '123.45' should convert to double 123.45");
 
-        result = classUnderTest.toDouble("abc");
+        result = String.valueOf(classUnderTest.toDouble());
         assertNull(result, "Invalid string 'abc' should result in null");
     }
 
     @Test
     void testDoubleToDouble() {
-        Double result = classUnderTest.toDouble(456.78);
+        Double result = classUnderTest.toDouble();
         assertEquals(456.78, result, "Double 456.78 should remain 456.78");
     }
 
     @Test
     void testObjectToString() {
-        String result = classUnderTest.toString(789);
+        String result = classUnderTest.toString();
         assertEquals("789", result, "Integer 789 should convert to string '789'");
 
-        result = classUnderTest.toString(101.11);
+        result = classUnderTest.toString();
         assertEquals("101.11", result, "Double 101.11 should convert to string '101.11'");
     }
 }

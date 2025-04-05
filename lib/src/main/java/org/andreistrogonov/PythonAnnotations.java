@@ -8,8 +8,8 @@ public class PythonAnnotations implements ToInteger, ToDouble {
      * @return
      */
     @Override
-    public String toDouble() {
-        return Double.toString(0.0);
+    public Double toDouble() {
+        return Double.valueOf(Double.toString(0.0));
     }
 
     /**

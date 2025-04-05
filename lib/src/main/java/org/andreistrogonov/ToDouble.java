@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ToDouble {
-    String toDouble();
+    public double toDouble();  // Change from Double to double
 }
