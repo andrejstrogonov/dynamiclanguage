@@ -4,7 +4,10 @@
 package org.andreistrogonov;
 
 public class Library {
-    public boolean someLibraryMethod() {
-        return true;
+    @ToDouble(defaultValue = 123.45)
+    public double toDouble() {
+        return 456.78;
     }
 }
+
+

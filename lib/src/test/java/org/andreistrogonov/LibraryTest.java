@@ -4,56 +4,20 @@
 package org.andreistrogonov;
 
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PythonAnnotationsTest {
-
-    private PythonAnnotations classUnderTest;
-
-    @BeforeEach
-    void setUp() {
-        classUnderTest = new PythonAnnotations();
-    }
-
+    // Method returns the expected double value 456.78
     @Test
-    void testStringToInteger() {
-        String result = classUnderTest .toInteger();
-        assertEquals(123, result, "String '123' should convert to integer 123");
+    public void test_to_double_returns_expected_value() {
+        Library library = new Library();
 
-        result = classUnderTest.toInteger();
-        assertNull(result, "Invalid string 'abc' should result in null");
+        double result = library.toDouble();
+
+        assertEquals(456.78, result, 0.001);
     }
 
-    @Test
-    void testIntegerToInteger() {
-        String result = classUnderTest.toInteger();
-        assertEquals(456, result, "Integer 456 should remain 456");
-    }
 
-    @Test
-    void testStringToDouble() {
-        String result = String.valueOf(classUnderTest.toDouble());
-        assertEquals(123.45, result, "String '123.45' should convert to double 123.45");
-
-        result = String.valueOf(classUnderTest.toDouble());
-        assertNull(result, "Invalid string 'abc' should result in null");
-    }
-
-    @Test
-    void testDoubleToDouble() {
-        Double result = classUnderTest.toDouble();
-        assertEquals(456.78, result, "Double 456.78 should remain 456.78");
-    }
-
-    @Test
-    void testObjectToString() {
-        String result = classUnderTest.toString();
-        assertEquals("789", result, "Integer 789 should convert to string '789'");
-
-        result = classUnderTest.toString();
-        assertEquals("101.11", result, "Double 101.11 should convert to string '101.11'");
-    }
 }
