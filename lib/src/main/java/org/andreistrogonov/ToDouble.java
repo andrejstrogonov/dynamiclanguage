@@ -17,5 +17,5 @@ public @interface ToDouble {
      *
      * @return the default value
      */
-    double defaultValue() default 0.0;
+    double defaultValue();
 }
