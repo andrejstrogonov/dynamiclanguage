@@ -5,8 +5,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(value = ElementType.METHOD)
+/**
+ * Annotation to indicate a method's result should be converted to double.
+ * Can specify a default double value.
+ */
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ToDouble {
-    public double toDouble();  // Change from Double to double
+    /**
+     * Default value to use when conversion is not possible.
+     *
+     * @return the default value
+     */
+    double defaultValue() default 0.0;
 }
