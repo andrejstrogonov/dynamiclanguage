@@ -10,22 +10,3 @@ import java.util.concurrent.Executors;
 public @interface Fork {
 }
 
-public class ForkProcessor {
-    
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
-
-    public void executeForks(Object obj) throws Exception {
-        Class<?> clazz = obj.getClass();
-        for (Method method : clazz.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Fork.class)) {
-                executorService.submit(() -> {
-                    try {
-                        method.invoke(obj);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-        }
-    }
-}
