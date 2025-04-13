@@ -1,11 +1,19 @@
 package org.andreistrogonov;
 
+import org.andreistrogonov.annotations.Fork;
+import org.andreistrogonov.annotations.ForkProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 public class ForkAnnotationTest {
     
@@ -46,6 +54,16 @@ public class ForkAnnotationTest {
     void testReturnTypeConstraint() {
         // Simulate method with return type check
         // This requires actual Fork annotation behavior
+        boolean validReturnType = true;
+        for (Method method : ForkProcessor.class.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(Fork.class)) {
+                if (method.getReturnType().isPrimitive()) {
+                    validReturnType = false;
+                    break;
+                }
+            }
+        }
+        assertTrue(validReturnType, "Methods annotated with @Fork should not return primitive types.");
     }
 
     // Test case to ensure proper usage documentation
@@ -53,5 +71,21 @@ public class ForkAnnotationTest {
     void testDocumentationPresent() {
         // Check if javadoc documentation is present for Fork annotation
         // This test should introspect the Fork class for documentation comments
+        try {
+            InputStream stream = Fork.class.getResourceAsStream("/com/example/annotations/Fork.java");
+            if (stream == null) {
+                fail("Fork.java source file not found in resources.");
+            }
+
+            String fileContents = new BufferedReader(new InputStreamReader(stream))
+                    .lines().collect(Collectors.joining("\n"));
+
+            boolean javadocExists = fileContents.contains("/**") && fileContents.contains("*/")
+                    && fileContents.contains("@Fork");
+
+            assertTrue(javadocExists, "Documentation (Javadoc) for @Fork annotation is not present.");
+        } catch (Exception e) {
+            fail("Exception occurred while checking documentation presence: " + e.getMessage());
+        }
     }
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 public @interface Fork {
 }
 
-class ForkProcessor {
+public class ForkProcessor {
     
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
