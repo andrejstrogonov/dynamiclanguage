@@ -1,4 +1,6 @@
-package org.andreistrogonov.annotations;
+package org.andreistrogonov;
+
+import org.andreistrogonov.annotations.Fork;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;

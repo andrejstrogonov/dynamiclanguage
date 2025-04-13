@@ -1,7 +1,6 @@
 package org.andreistrogonov;
 
 import org.andreistrogonov.annotations.Fork;
-import org.andreistrogonov.annotations.ForkProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
