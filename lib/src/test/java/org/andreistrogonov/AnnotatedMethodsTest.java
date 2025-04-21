@@ -4,66 +4,76 @@ import org.andreistrogonov.annotations.Map;
 import org.andreistrogonov.annotations.Reduce;
 import org.andreistrogonov.annotations.Filter;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class AnnotatedMethodsTest {
+
+    @Mock
+    private DataProvider dataProvider;  // Mocked data provider
+
+    @InjectMocks
+    private AnnotationProcessor annotationProcessor;
 
     @Test
     @Map
     public void testMapAnnotationTransformsElements() {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
+        when(dataProvider.getNumbers()).thenReturn(numbers);
+        
+        List<Integer> result = annotationProcessor.mapOperation();
+        
         List<Integer> expected = Arrays.asList(2, 4, 6, 8);
-        List<Integer> result = numbers.stream()
-            .map(n -> n * 2)
-            .collect(Collectors.toList());
         assertEquals(expected, result);
+        verify(dataProvider).getNumbers();
     }
 
     @Test
     @Reduce
     public void testReduceAnnotationCombinesElements() {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
+        when(dataProvider.getNumbers()).thenReturn(numbers);
+        
+        Integer result = annotationProcessor.reduceOperation();
+        
         Integer expected = 10;
-        Integer result = numbers.stream()
-            .reduce(0, Integer::sum);
         assertEquals(expected, result);
+        verify(dataProvider).getNumbers();
     }
 
     @Test
     @Filter
     public void testFilterAnnotationRemovesElements() {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
+        when(dataProvider.getNumbers()).thenReturn(numbers);
+        
+        List<Integer> result = annotationProcessor.filterOperation();
+        
         List<Integer> expected = Arrays.asList(2, 4);
-        List<Integer> result = numbers.stream()
-            .filter(n -> n % 2 == 0)
-            .collect(Collectors.toList());
         assertEquals(expected, result);
+        verify(dataProvider).getNumbers();
     }
 
     @Test
     public void testMapAnnotationWithInvalidMethod() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
+        when(dataProvider.getNumbers()).thenReturn(numbers);
+        when(annotationProcessor.mapOperationWithSideEffects()).thenThrow(new IllegalStateException("Side effect detected"));
+        
         assertThrows(IllegalStateException.class, () -> {
-            // simulate a method with side effects or invalid application of @Map
-            List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-            numbers.forEach(n -> {
-                if (n == 2) {
-                    throw new IllegalStateException("Side effect detected");
-                }
-            });
-
-            numbers.stream()
-                .map(n -> {
-                    if (n == 2) {
-                        throw new IllegalStateException("Side effect detected");
-                    }
-                    return n * 2;
-                })
-                .collect(Collectors.toList());
+            annotationProcessor.mapOperationWithSideEffects();
         });
+        
+        verify(dataProvider).getNumbers();
     }
 }
