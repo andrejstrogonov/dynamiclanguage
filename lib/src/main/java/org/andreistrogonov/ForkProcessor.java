@@ -28,4 +28,7 @@ public class ForkProcessor {
     public void process() {
 
     }
+
+    public void processNullCase() {
+    }
 }

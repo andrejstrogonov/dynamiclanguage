@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
@@ -111,7 +112,7 @@ public class ForkAnnotationTest {
     @Test
     void testNullHandling() {
         // Setup mock to handle null values
-        doNothing().when(executorService).submit(isNull());
+        doNothing().when(executorService).submit((Callable<Object>) isNull());
         
         // Verify the processor handles null values appropriately
         assertDoesNotThrow(() -> {
