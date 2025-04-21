@@ -24,4 +24,8 @@ public class ForkProcessor {
             }
         }
     }
+
+    public void process() {
+
+    }
 }

@@ -1,6 +1,8 @@
 package org.andreistrogonov;
 
-class SampleClassWithMerge {
+import org.andreistrogonov.annotations.Merge;
+
+public class SampleClassWithMerge {
     @Merge
     private int mergeField;
 

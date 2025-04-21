@@ -3,18 +3,20 @@ package org.andreistrogonov;
 import org.andreistrogonov.annotations.Map;
 import org.andreistrogonov.annotations.Reduce;
 import org.andreistrogonov.annotations.Filter;
+import org.gradle.internal.impldep.org.testng.annotations.DataProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AnnotatedMethodsTest {
@@ -35,7 +37,7 @@ public class AnnotatedMethodsTest {
         
         List<Integer> expected = Arrays.asList(2, 4, 6, 8);
         assertEquals(expected, result);
-        verify(dataProvider).getNumbers();
+        Mockito.verify(dataProvider).getNumbers();
     }
 
     @Test
@@ -48,7 +50,7 @@ public class AnnotatedMethodsTest {
         
         Integer expected = 10;
         assertEquals(expected, result);
-        verify(dataProvider).getNumbers();
+        Mockito.verify(dataProvider).getNumbers();
     }
 
     @Test
@@ -61,7 +63,7 @@ public class AnnotatedMethodsTest {
         
         List<Integer> expected = Arrays.asList(2, 4);
         assertEquals(expected, result);
-        verify(dataProvider).getNumbers();
+        Mockito.verify(dataProvider).getNumbers();
     }
 
     @Test
@@ -74,6 +76,6 @@ public class AnnotatedMethodsTest {
             annotationProcessor.mapOperationWithSideEffects();
         });
         
-        verify(dataProvider).getNumbers();
+        Mockito.verify(dataProvider).getNumbers();
     }
 }
