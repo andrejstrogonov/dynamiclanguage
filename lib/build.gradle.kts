@@ -22,6 +22,11 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(libs.guava)
+    
+    // Add Mockito as a test dependency
+    testImplementation("org.mockito:mockito-core:5.17.0")
+
+    testImplementation("org.mockito:mockito-junit-jupiter:5.17.0")
 }
 
 testing {
