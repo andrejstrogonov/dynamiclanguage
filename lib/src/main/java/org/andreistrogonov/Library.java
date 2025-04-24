@@ -3,6 +3,8 @@
  */
 package org.andreistrogonov;
 
+import org.andreistrogonov.annotations.ToDouble;
+
 public class Library {
     @ToDouble(defaultValue = 123.45)
     public double toDouble() {
