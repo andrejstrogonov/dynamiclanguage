@@ -120,6 +120,6 @@ public class ForkAnnotationTest {
         });
         
         // Verify interaction with null parameter
-        verify(executorService).submit(isNull());
+        verify(executorService).submit((Callable<Object>) isNull());
     }
 }

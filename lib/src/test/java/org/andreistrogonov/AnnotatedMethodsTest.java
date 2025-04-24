@@ -3,7 +3,6 @@ package org.andreistrogonov;
 import org.andreistrogonov.annotations.Map;
 import org.andreistrogonov.annotations.Reduce;
 import org.andreistrogonov.annotations.Filter;
-import org.gradle.internal.impldep.org.testng.annotations.DataProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +20,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class AnnotatedMethodsTest {
 
+    // Mock an internal DataProvider instance
+    // Create a simple class to simulate data provision
+    static class DataProvider {
+        List<Integer> getNumbers() {
+            return Arrays.asList(1, 2, 3, 4);
+        }
+    }
+
     @Mock
     private DataProvider dataProvider;  // Mocked data provider
 
@@ -30,10 +37,9 @@ public class AnnotatedMethodsTest {
     @Test
     @Map
     public void testMapAnnotationTransformsElements() {
-        List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-        when(dataProvider.getNumbers()).thenReturn(numbers);
+        when(dataProvider.getNumbers()).thenReturn(Arrays.asList(1, 2, 3, 4));
         
-        List<Integer> result = annotationProcessor.mapOperation();
+        List<Integer> result = annotationProcessor.doubleValues(dataProvider.getNumbers());
         
         List<Integer> expected = Arrays.asList(2, 4, 6, 8);
         assertEquals(expected, result);
@@ -43,10 +49,9 @@ public class AnnotatedMethodsTest {
     @Test
     @Reduce
     public void testReduceAnnotationCombinesElements() {
-        List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-        when(dataProvider.getNumbers()).thenReturn(numbers);
+        when(dataProvider.getNumbers()).thenReturn(Arrays.asList(1, 2, 3, 4));
         
-        Integer result = annotationProcessor.reduceOperation();
+        Integer result = annotationProcessor.reduceToSum(dataProvider.getNumbers());
         
         Integer expected = 10;
         assertEquals(expected, result);
@@ -56,10 +61,9 @@ public class AnnotatedMethodsTest {
     @Test
     @Filter
     public void testFilterAnnotationRemovesElements() {
-        List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-        when(dataProvider.getNumbers()).thenReturn(numbers);
+        when(dataProvider.getNumbers()).thenReturn(Arrays.asList(1, 2, 3, 4));
         
-        List<Integer> result = annotationProcessor.filterOperation();
+        List<Integer> result = annotationProcessor.filterEvenNumbers(dataProvider.getNumbers());
         
         List<Integer> expected = Arrays.asList(2, 4);
         assertEquals(expected, result);
@@ -68,12 +72,11 @@ public class AnnotatedMethodsTest {
 
     @Test
     public void testMapAnnotationWithInvalidMethod() {
-        List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-        when(dataProvider.getNumbers()).thenReturn(numbers);
-        when(annotationProcessor.mapOperationWithSideEffects()).thenThrow(new IllegalStateException("Side effect detected"));
+        when(dataProvider.getNumbers()).thenReturn(Arrays.asList(1, 2, 3, 4));
+        when(annotationProcessor.doubleValues(dataProvider.getNumbers())).thenThrow(new IllegalStateException("Side effect detected"));
         
         assertThrows(IllegalStateException.class, () -> {
-            annotationProcessor.mapOperationWithSideEffects();
+            annotationProcessor.doubleValues(dataProvider.getNumbers());
         });
         
         Mockito.verify(dataProvider).getNumbers();
